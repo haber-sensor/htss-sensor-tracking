@@ -38,6 +38,8 @@ const DetailPanel: React.FC<DetailPanelProps> = ({ sensor, onClose, isDark = fal
         return <AlertCircle className="w-5 h-5 text-red-600" />;
       case 'NA':
         return <Clock className="w-5 h-5 text-gray-600" />;
+      case 'Updation':
+        return <Activity className="w-5 h-5 text-blue-600" />;
       default:
         return <Activity className="w-5 h-5 text-gray-600" />;
     }

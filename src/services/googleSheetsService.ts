@@ -85,13 +85,15 @@ export class GoogleSheetsService {
   /**
    * Normalize status values to match expected format
    */
-  private normalizeStatus(status: string): 'Live' | 'Trouble' | 'NA' {
+  private normalizeStatus(status: string): 'Live' | 'Trouble' | 'NA' | 'Updation' {
     const normalized = status.toLowerCase().trim();
     
     if (normalized === 'live' || normalized === 'online' || normalized === 'active') {
       return 'Live';
     } else if (normalized === 'trouble' || normalized === 'error' || normalized === 'offline' || normalized === 'problem') {
       return 'Trouble';
+    } else if (normalized === 'updation' || normalized === 'updating') {
+      return 'Updation';
     } else {
       return 'NA';
     }

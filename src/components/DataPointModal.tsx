@@ -172,6 +172,7 @@ const DataPointModal: React.FC<DataPointModalProps> = ({
                 <option value="Live">Live</option>
                 <option value="Trouble">Trouble</option>
                 <option value="NA">Not Available</option>
+                <option value="Updation">Updation</option>
               </select>
               {validation.errors.status && (
                 <p className="mt-1 text-sm text-red-500 flex items-center">

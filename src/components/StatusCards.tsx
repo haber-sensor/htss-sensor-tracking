@@ -85,6 +85,32 @@ const StatusCards: React.FC<StatusCardsProps> = ({ stats, isDark = false, lastUp
         </div>
       </div>
 
+      {/* Updation */}
+<div className={`group rounded-xl p-6 border transition-all duration-300 hover:shadow-md hover:scale-102 ${
+  isDark 
+    ? 'bg-gradient-to-br from-yellow-900/30 to-transparent border-yellow-800/50' 
+    : 'bg-gradient-to-br from-yellow-50 to-transparent border-yellow-200'
+}`}>
+  <div className="flex items-center">
+    <div className="relative">
+      <div className="w-4 h-4 bg-yellow-500 rounded-full animate-pulse shadow-lg"></div>
+      <div className="absolute inset-0 bg-yellow-400 rounded-full opacity-50 animate-ping"></div>
+    </div>
+    <div className="ml-4">
+      <div className={`text-3xl font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-700'}`}>
+        {stats.updation}
+      </div>
+      <div className={`text-sm font-semibold tracking-wide uppercase ${isDark ? 'text-yellow-300' : 'text-yellow-600'}`}>
+        Updation
+      </div>
+    </div>
+  </div>
+  <div className={`mt-2 text-xs ${isDark ? 'text-yellow-400/70' : 'text-yellow-600/70'}`}>
+    Firmware / config update in progress
+  </div>
+</div>
+
+
       {/* Deployment Progress */}
       <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700">
         <div className="flex justify-between text-sm font-medium mb-2">

@@ -166,6 +166,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, onRowSelect, onExport, isDa
             <option value="Live">Live</option>
             <option value="Trouble">Trouble</option>
             <option value="NA">Not Deployed</option>
+            <option value="Updation">Updation</option>
           </select>
 
           {/* Customer Filter */}

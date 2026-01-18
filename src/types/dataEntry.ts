@@ -3,7 +3,7 @@ export interface DataPoint {
   timestamp: string;
   sensorId: string;
   value: number;
-  status: 'Live' | 'Trouble' | 'NA';
+  status: 'Live' | 'Trouble' | 'NA' | 'Updation';
   notes: string;
   unit?: string;
   parameter?: string;

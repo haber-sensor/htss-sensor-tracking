@@ -11,13 +11,16 @@ export const calculateSensorStats = (sensors: SensorData[]): SensorStats => {
         case 'Trouble':
           acc.trouble++;
           break;
+        case 'Updation':
+  acc.updation++;
+  break;
         case 'NA':
           acc.notDeployed++;
           break;
       }
       return acc;
     },
-    { total: 0, live: 0, trouble: 0, notDeployed: 0 }
+    { total: 0, live: 0, trouble: 0, notDeployed: 0, updation: 0 }
   );
 
   return stats;
@@ -33,6 +36,8 @@ export const getStatusColor = (status: string, isDark = false): string => {
         return 'text-red-300 bg-red-900/30 border border-red-800';
       case 'NA':
         return 'text-gray-400 bg-gray-800 border border-gray-700';
+      case 'Updation':
+  return 'bg-yellow-500/20 text-yellow-400';
       default:
         return 'text-gray-400 bg-gray-800 border border-gray-700';
     }
@@ -44,6 +49,8 @@ export const getStatusColor = (status: string, isDark = false): string => {
         return 'text-red-600 bg-red-50 border border-red-100';
       case 'NA':
         return 'text-gray-600 bg-gray-50 border border-gray-100';
+        case 'Updation':
+  return 'bg-yellow-100 text-yellow-800';
       default:
         return 'text-gray-600 bg-gray-50 border border-gray-100';
     }
@@ -60,6 +67,8 @@ export const getStatusRowColor = (status: string, isDark = false): string => {
         return 'hover:bg-red-900/20';
       case 'NA':
         return 'hover:bg-gray-700';
+      case 'Updation':
+  return 'hover:bg-yellow-700/30';
       default:
         return 'hover:bg-gray-700';
     }
@@ -71,6 +80,8 @@ export const getStatusRowColor = (status: string, isDark = false): string => {
         return 'hover:bg-red-50';
       case 'NA':
         return 'hover:bg-gray-100';
+      case 'Updation':
+  return 'hover:bg-yellow-100';
       default:
         return 'hover:bg-gray-50';
     }

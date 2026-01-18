@@ -3,7 +3,7 @@ export interface SensorData {
   customerName: string;
   sensorAssigned: string;
   deploymentDate: string;
-  status: 'Live' | 'Trouble' | 'NA';
+  status: 'Live' | 'Trouble' | 'NA' | 'Updation';
   latestUpdates: string;
   reasonForTrouble: string;
   resolutionStatus: string;
@@ -19,6 +19,7 @@ export interface SensorStats {
   live: number;
   trouble: number;
   notDeployed: number;
+  updation: number;
 }
 
 export interface FilterOptions {

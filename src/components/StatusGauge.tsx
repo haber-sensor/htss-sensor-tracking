@@ -10,11 +10,28 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
   const total = stats.total || 1;
   const livePercentage = (stats.live / total) * 100;
   const troublePercentage = (stats.trouble / total) * 100;
+  const UpdationPercentage = (stats.updation / total) * 100;
 
   const radius = 110;
-  const circumference = 2 * Math.PI * radius;
-  const liveOffset = circumference - (livePercentage / 100) * circumference;
-  const troubleOffset = circumference - (troublePercentage / 100) * circumference;
+    // Radii
+  const liveRadius = 110;
+  const updationRadius = 97;
+  const troubleRadius = 88;
+
+  const liveCirc = 2 * Math.PI * liveRadius;
+  const updationCirc = 2 * Math.PI * updationRadius;
+  const troubleCirc = 2 * Math.PI * troubleRadius;
+
+    const circumference = 2 * Math.PI * radius;
+  const liveOffset = liveCirc * (1 - livePercentage / 100);
+  const troubleOffset = troubleCirc * (1 - troublePercentage / 100);
+  const UpdationOffset = updationCirc * (1 - UpdationPercentage / 100);
+
+  // const circumference = 2 * Math.PI * radius;
+  // const liveOffset = circumference - (livePercentage / 100) * circumference;
+  // const troubleOffset = circumference - (troublePercentage / 100) * circumference;
+  // const UpdationOffset = circumference - (UpdationPercentage / 100) * circumference;
+
 
   return (
     <div className={`rounded-xl shadow-lg p-8 border transition-all duration-300 ${
@@ -47,30 +64,47 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
           <circle
             cx="120"
             cy="120"
-            r={radius}
+            r={liveRadius}
             stroke="url(#liveGradient)"
             strokeWidth="14"
             fill="transparent"
-            strokeDasharray={circumference}
+            strokeDasharray={liveCirc}
             strokeDashoffset={liveOffset}
             strokeLinecap="round"
             className="transition-all duration-1000 ease-out"
             style={{ filter: 'drop-shadow(0px 2px 4px rgba(16, 185, 129, 0.4))' }}
           />
 
+          {/* Updation Arc (middle ring) */}
+<circle
+  cx="120"
+  cy="120"
+  r={updationRadius}
+  stroke="url(#UpdationGradient)"
+  strokeWidth="10"
+  fill="transparent"
+  strokeDasharray={updationCirc}
+  strokeDashoffset={UpdationOffset}
+  strokeLinecap="round"
+  className="transition-all duration-1000 ease-out"
+/>
+
           {/* Trouble Arc (inner, thinner) */}
           <circle
             cx="120"
             cy="120"
-            r="95"
+            r={troubleRadius}
             stroke="url(#troubleGradient)"
             strokeWidth="6"
             fill="transparent"
-            strokeDasharray={circumference * 0.95}
+            strokeDasharray={troubleCirc}
             strokeDashoffset={troubleOffset}
             strokeLinecap="round"
             className="transition-all duration-1000 ease-out"
           />
+
+
+
           
           {/* Gradients */}
           <defs>
@@ -82,25 +116,32 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
               <stop offset="0%" stopColor="#f97316" />
               <stop offset="100%" stopColor="#c2410c" />
             </linearGradient>
+            <linearGradient id="UpdationGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+  <stop offset="0%" stopColor="#facc15" />
+  <stop offset="100%" stopColor="#ca8a04" />
+</linearGradient>
+
           </defs>
         </svg>
 
         {/* Center Text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
           <div className={`text-4xl font-extrabold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            {Math.round(livePercentage)}%
+            {Math.round(((stats.live + stats.updation) / total) * 100)}%
+
           </div>
           <div className="text-xs font-semibold text-green-500 tracking-wide uppercase mt-1">
             LIVE
           </div>
           <div className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            {stats.live} of {total}
+            {stats.live + stats.updation} of {total}
+
           </div>
         </div>
       </div>
 
       {/* Legend */}
-      <div className="flex justify-center mt-6 space-x-6 text-sm">
+<div className="flex justify-center mt-6 space-x-6 text-sm">
         <div className="flex items-center">
           <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
           <span className={isDark ? 'text-gray-300' : 'text-gray-700'}>
@@ -113,7 +154,14 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
             Trouble: <strong>{stats.trouble}</strong>
           </span>
         </div>
+        <div className="flex items-center">
+          <span className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></span>
+          <span className={isDark ? 'text-gray-300' : 'text-gray-700'}>
+            Updation: <strong>{stats.updation}</strong>
+          </span>
+        </div>
       </div>
+
 
       {/* Alert Banner */}
       {stats.trouble > 0 && (
