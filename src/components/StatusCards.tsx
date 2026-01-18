@@ -63,28 +63,6 @@ const StatusCards: React.FC<StatusCardsProps> = ({ stats, isDark = false, lastUp
         </div>
       </div>
 
-      {/* Not Deployed */}
-      <div className={`group rounded-xl p-6 border transition-all duration-300 hover:shadow-md hover:scale-102 ${
-        isDark 
-          ? 'bg-gradient-to-br from-gray-800/40 to-transparent border-gray-700' 
-          : 'bg-gradient-to-br from-gray-50 to-transparent border-gray-200'
-      }`}>
-        <div className="flex items-center">
-          <div className={`w-4 h-4 rounded-full mr-3 ${isDark ? 'bg-gray-400' : 'bg-gray-500'} shadow-sm`}></div>
-          <div>
-            <div className={`text-3xl font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-              {stats.notDeployed}
-            </div>
-            <div className={`text-sm font-semibold tracking-wide uppercase ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Not Deployed
-            </div>
-          </div>
-        </div>
-        <div className={`mt-2 text-xs ${isDark ? 'text-gray-400/70' : 'text-gray-600/70'}`}>
-          Pending installation
-        </div>
-      </div>
-
       {/* Updation */}
 <div className={`group rounded-xl p-6 border transition-all duration-300 hover:shadow-md hover:scale-102 ${
   isDark 
@@ -109,6 +87,30 @@ const StatusCards: React.FC<StatusCardsProps> = ({ stats, isDark = false, lastUp
     Firmware / config update in progress
   </div>
 </div>
+
+      {/* Not Deployed */}
+      <div className={`group rounded-xl p-6 border transition-all duration-300 hover:shadow-md hover:scale-102 ${
+        isDark 
+          ? 'bg-gradient-to-br from-gray-800/40 to-transparent border-gray-700' 
+          : 'bg-gradient-to-br from-gray-50 to-transparent border-gray-200'
+      }`}>
+        <div className="flex items-center">
+          <div className={`w-4 h-4 rounded-full mr-3 ${isDark ? 'bg-gray-400' : 'bg-gray-500'} shadow-sm`}></div>
+          <div>
+            <div className={`text-3xl font-bold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+              {stats.notDeployed}
+            </div>
+            <div className={`text-sm font-semibold tracking-wide uppercase ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              Not Deployed
+            </div>
+          </div>
+        </div>
+        <div className={`mt-2 text-xs ${isDark ? 'text-gray-400/70' : 'text-gray-600/70'}`}>
+          Pending installation
+        </div>
+      </div>
+
+
 
 
       {/* Deployment Progress */}
