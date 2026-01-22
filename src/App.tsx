@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Header from './components/Header';
 import StatusGauge from './components/StatusGauge';
 import StatusCards from './components/StatusCards';
@@ -153,6 +154,9 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </div>
   );
 }
