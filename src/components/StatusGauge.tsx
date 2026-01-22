@@ -12,20 +12,24 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
   const troublePercentage = (stats.trouble / total) * 100;
   const UpdationPercentage = (stats.updation / total) * 100;
 
-  const radius = 110;
-    // Radii
-  const liveRadius = 110;
-  const updationRadius = 97;
-  const troubleRadius = 88;
 
-  const liveCirc = 2 * Math.PI * liveRadius;
-  const updationCirc = 2 * Math.PI * updationRadius;
-  const troubleCirc = 2 * Math.PI * troubleRadius;
 
-    const circumference = 2 * Math.PI * radius;
-  const liveOffset = liveCirc * (1 - livePercentage / 100);
-  const troubleOffset = troubleCirc * (1 - troublePercentage / 100);
-  const UpdationOffset = updationCirc * (1 - UpdationPercentage / 100);
+const liveFrac = stats.live / total;
+const updationFrac = stats.updation / total;
+const troubleFrac = stats.trouble / total;
+
+const radius = 110;
+const circ = 2 * Math.PI * radius;
+
+const liveLen = circ * liveFrac;
+const updationLen = circ * updationFrac;
+const troubleLen = circ * troubleFrac;
+
+// cumulative offsets (negative because of -rotate-90)
+const liveOffset = 0;
+const UpdationOffset = -liveLen;
+const troubleOffset = -(liveLen + updationLen);
+
 
   // const circumference = 2 * Math.PI * radius;
   // const liveOffset = circumference - (livePercentage / 100) * circumference;
@@ -34,14 +38,13 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
 
 
   return (
-    <div className={`rounded-xl shadow-lg p-8 border transition-all duration-300 ${
-      isDark 
-        ? 'bg-gray-800/60 border-gray-700 backdrop-blur-sm' 
+    <div className={`rounded-xl shadow-lg p-8 border transition-all duration-300 ${isDark
+        ? 'bg-gray-800/60 border-gray-700 backdrop-blur-sm'
         : 'bg-white border-gray-200 shadow-gray-200/50'
-    }`}>
+      }`}>
       <div className="text-center mb-6">
         <h2 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          Live Sensor Dashboard 
+          Live Sensor Dashboard
         </h2>
         <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
           Real-time status of deployed sensor
@@ -64,11 +67,11 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
           <circle
             cx="120"
             cy="120"
-            r={liveRadius}
+            r={radius}
             stroke="url(#liveGradient)"
             strokeWidth="14"
             fill="transparent"
-            strokeDasharray={liveCirc}
+            strokeDasharray={`${liveLen} ${circ - liveLen}`}
             strokeDashoffset={liveOffset}
             strokeLinecap="round"
             className="transition-all duration-1000 ease-out"
@@ -76,28 +79,28 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
           />
 
           {/* Updation Arc (middle ring) */}
-<circle
-  cx="120"
-  cy="120"
-  r={updationRadius}
-  stroke="url(#UpdationGradient)"
-  strokeWidth="10"
-  fill="transparent"
-  strokeDasharray={updationCirc}
-  strokeDashoffset={UpdationOffset}
-  strokeLinecap="round"
-  className="transition-all duration-1000 ease-out"
-/>
+          <circle
+            cx="120"
+            cy="120"
+            r={radius}
+            stroke="url(#UpdationGradient)"
+            strokeWidth="14"
+            fill="transparent"
+            strokeDasharray={`${updationLen} ${circ - updationLen}`}
+            strokeDashoffset={UpdationOffset}
+            strokeLinecap="round"
+            className="transition-all duration-1000 ease-out"
+          />
 
           {/* Trouble Arc (inner, thinner) */}
           <circle
             cx="120"
             cy="120"
-            r={troubleRadius}
+            r={radius}
             stroke="url(#troubleGradient)"
-            strokeWidth="6"
+            strokeWidth="14"
             fill="transparent"
-            strokeDasharray={troubleCirc}
+            strokeDasharray={`${troubleLen} ${circ - troubleLen}`}
             strokeDashoffset={troubleOffset}
             strokeLinecap="round"
             className="transition-all duration-1000 ease-out"
@@ -105,7 +108,7 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
 
 
 
-          
+
           {/* Gradients */}
           <defs>
             <linearGradient id="liveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -117,9 +120,9 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
               <stop offset="100%" stopColor="#c2410c" />
             </linearGradient>
             <linearGradient id="UpdationGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stopColor="#facc15" />
-  <stop offset="100%" stopColor="#ca8a04" />
-</linearGradient>
+              <stop offset="0%" stopColor="#facc15" />
+              <stop offset="100%" stopColor="#ca8a04" />
+            </linearGradient>
 
           </defs>
         </svg>
@@ -141,7 +144,7 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
       </div>
 
       {/* Legend */}
-<div className="flex justify-center mt-6 space-x-6 text-sm">
+      <div className="flex justify-center mt-6 space-x-6 text-sm">
         <div className="flex items-center">
           <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
           <span className={isDark ? 'text-gray-300' : 'text-gray-700'}>
@@ -157,7 +160,7 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
         <div className="flex items-center">
           <span className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></span>
           <span className={isDark ? 'text-gray-300' : 'text-gray-700'}>
-            Updation: <strong>{stats.updation}</strong>
+            Firmware Updation: <strong>{stats.updation}</strong>
           </span>
         </div>
       </div>
@@ -165,9 +168,8 @@ const StatusGauge: React.FC<StatusGaugeProps> = ({ stats, isDark = false }) => {
 
       {/* Alert Banner */}
       {stats.trouble > 0 && (
-        <div className={`mt-6 p-4 rounded-xl border-l-4 border-orange-400 animate-pulse-fast ${
-          isDark ? 'bg-orange-900/30' : 'bg-orange-50'
-        }`}>
+        <div className={`mt-6 p-4 rounded-xl border-l-4 border-orange-400 animate-pulse-fast ${isDark ? 'bg-orange-900/30' : 'bg-orange-50'
+          }`}>
           <div className="flex items-start">
             <svg className="h-5 w-5 text-orange-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
